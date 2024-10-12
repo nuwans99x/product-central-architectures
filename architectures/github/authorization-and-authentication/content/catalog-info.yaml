@@ -1,0 +1,128 @@
+# catalog-info.yaml for Authorization and Authentication Reference Architecture
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: authorization-and-authentication
+  description: |
+    A reference architecture for implementing secure authentication and authorization 
+    using OAuth 2.0, JWT, and integration with Identity Providers (IdP) like Keycloak, 
+    Auth0, or cloud services like AWS Cognito. The architecture provides components for 
+    handling token-based authentication, access control, and security best practices.
+  tags:
+    - OAuth2.0
+    - JWT
+    - Authorization
+    - Authentication
+    - Security
+    - Identity Provider
+  owner: team-auth
+  annotations:
+    backstage.io/techdocs-ref: url:https://github.com/99x/product-central-architectures/wiki/Authorization-and-Authentication-Tutorial
+    github.com/project-repo: https://github.com/99x/product-central-architectures
+spec:
+  type: service
+  lifecycle: production
+  system: security
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: oauth2-jwt-auth-api
+  description: |
+    API for OAuth 2.0 and JWT-based authentication and authorization flows. The API provides
+    endpoints for issuing and validating tokens, and enforcing role-based or scope-based access control.
+  tags:
+    - OAuth2.0
+    - JWT
+    - Authorization
+    - Authentication
+  owner: team-auth
+spec:
+  type: openapi
+  lifecycle: production
+  system: security
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: OAuth2 and JWT Authentication API
+      description: This API is responsible for managing authentication and authorization flows using OAuth 2.0 and JWT.
+      version: 1.0.0
+    paths:
+      /auth/token:
+        post:
+          summary: Generate a JWT access token.
+          description: |
+            This endpoint allows a client to obtain a JWT access token by providing valid credentials 
+            (username, password, or other authentication methods).
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                    password:
+                      type: string
+          responses:
+            '200':
+              description: Successfully generated token
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                      refresh_token:
+                        type: string
+      /auth/validate:
+        post:
+          summary: Validate a JWT token.
+          description: |
+            Validates the provided JWT token to ensure its authenticity and validity.
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    token:
+                      type: string
+          responses:
+            '200':
+              description: Token is valid
+            '401':
+              description: Invalid or expired token
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: authorization-and-authentication-system
+  description: |
+    A system for managing authentication and authorization flows in a secure, scalable, 
+    and robust manner. This system integrates OAuth 2.0, JWT, and external Identity Providers 
+    like Keycloak or Auth0 to handle secure access management for APIs and microservices.
+  tags:
+    - Security
+    - OAuth2.0
+    - JWT
+    - Identity Provider
+  owner: team-auth
+spec:
+  owner: team-auth
+  domain: security
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: security
+  description: |
+    The security domain encompasses all components and services related to ensuring 
+    authentication, authorization, and secure access management across the platform.
+  owner: security-team
+

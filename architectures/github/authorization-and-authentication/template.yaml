@@ -1,0 +1,131 @@
+# template.yaml for Authorization and Authentication Reference Architecture
+
+metadata:
+  name: Authorization and Authentication
+  description: |
+    This reference architecture provides a robust and scalable solution for implementing 
+    OAuth 2.0 and JWT-based authorization and authentication. It is designed to ensure
+    secure identity management, access control, and API protection for microservices 
+    and web applications. Integration with Identity Providers (IdP) and Multi-Factor 
+    Authentication (MFA) is supported.
+  version: 1.0.0
+  maintainers:
+    - name: Your Name
+      email: your-email@example.com
+    - name: Team Member 2
+      email: team-member2@example.com
+  contributors:
+    - name: Contributor Name 1
+      email: contributor1@example.com
+    - name: Contributor Name 2
+      email: contributor2@example.com
+  tags: 
+    - OAuth2.0
+    - JWT
+    - Authentication
+    - Authorization
+    - Security
+    - IdentityProvider
+  licenses:
+    - name: MIT License
+      url: https://opensource.org/licenses/MIT
+  categories:
+    - Security
+    - Authentication and Authorization
+
+repository_template:
+  description: |
+    This repository contains the bootstrap code and configurations needed to set up 
+    OAuth 2.0, JWT, and an Identity Provider for managing user authentication and 
+    access control.
+  components:
+    - Authentication Server: |
+        This component handles OAuth 2.0 authorization and issues JWT tokens.
+        It integrates with the Identity Provider (Keycloak, Auth0, etc.) for user authentication.
+        It is configurable for Multi-Factor Authentication (MFA) support.
+    - Resource Server: |
+        The resource server is responsible for validating JWT tokens and enforcing
+        role-based or scope-based access control on protected API endpoints.
+    - Client: |
+        Sample client code for web or mobile applications to request tokens from 
+        the authentication server and access protected APIs.
+  repository_structure:
+    - /bootstrap: Initial code to set up authentication and authorization flows.
+    - /config: Configuration files for OAuth, JWT, and the Identity Provider.
+    - /ci-cd: Continuous integration and deployment pipelines for automated builds 
+      and deployments.
+    - /docs: Documentation with detailed setup instructions, best practices, 
+      and tutorials.
+    - /examples: Sample client and API code for integration.
+
+documentation:
+  overview: |
+    This reference architecture enables secure authentication and authorization 
+    through OAuth 2.0 and JWT. It integrates with Identity Providers (IdP) like Keycloak 
+    or Auth0 to handle user credentials and provides a clear path to implement role-based 
+    access control (RBAC).
+  tutorial: |
+    Follow the step-by-step guide in the documentation to set up OAuth 2.0, configure
+    an Identity Provider, and secure your APIs. The tutorial covers initial setup, token 
+    issuance, validation, and enforcement of security policies.
+    Documentation URL: https://github.com/99x/product-central-architectures/wiki/Authorization-and-Authentication-Tutorial
+  decision_records: |
+    Decision records document the rationale for selecting OAuth 2.0, JWT, and 
+    specific Identity Provider integrations. These records explain the trade-offs 
+    considered and the best practices adopted in the architecture.
+    ADR URL: https://github.com/99x/product-central-architectures/wiki/Authorization-and-Authentication-ADRs
+  references:
+    - OAuth 2.0 RFC: https://tools.ietf.org/html/rfc6749
+    - JWT RFC: https://tools.ietf.org/html/rfc7519
+    - Keycloak Documentation: https://www.keycloak.org/documentation.html
+    - Auth0 Documentation: https://auth0.com/docs
+
+software_catalog_entry:
+  description: |
+    This software catalog entry provides a reusable template for integrating 
+    OAuth 2.0 and JWT-based authentication and authorization into new or 
+    existing applications. Developers can quickly adopt the provided patterns 
+    and tools to secure their APIs and manage user identities.
+  usage_instructions: |
+    1. Clone the repository template.
+    2. Follow the setup guide to configure the Identity Provider and secure API endpoints.
+    3. Integrate the client-side code to handle token-based authentication.
+  catalog_url: https://github.com/99x/product-central-architectures/catalog/Authorization-Authentication
+
+ci_cd:
+  build_tool: GitHub Actions
+  pipeline_stages:
+    - stage: Lint
+      description: Linting code to ensure it meets security and coding standards.
+    - stage: Test
+      description: Run unit and integration tests for authentication flows.
+    - stage: Build
+      description: Build the authentication and resource servers for deployment.
+    - stage: Deploy
+      description: Deploy the services on a Kubernetes cluster, securing 
+      communication between services using HTTPS.
+  notification: |
+    Upon successful deployment, an email notification will be sent to the team.
+
+deployment_manifest:
+  infrastructure_requirements: |
+    This architecture requires a Kubernetes cluster for deployment, with Helm charts 
+    available to configure OAuth services and the Identity Provider.
+    Optional: Use cloud-native services such as AWS Cognito or Azure AD for identity management.
+  components:
+    - OAuth2 Authorization Server
+    - JWT Token Validator
+    - Role-Based Access Control (RBAC) for APIs
+    - Identity Provider (Keycloak, Auth0, etc.)
+  storage: "Requires a database for user management (Postgres, MySQL, or external service like AWS RDS)."
+  compute: |
+    Resource requirements for running the Authorization Server and Resource Server 
+    (1 vCPU, 512MB RAM minimum).
+
+monitoring:
+  description: |
+    This template includes Prometheus metrics and Grafana dashboards for monitoring
+    authentication and authorization flows.
+  alerts: |
+    Configure alerts for token issuance failures, high login errors, or unusual activity 
+    to ensure the system remains secure.
